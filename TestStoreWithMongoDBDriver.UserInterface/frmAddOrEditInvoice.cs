@@ -60,9 +60,7 @@ namespace TestStoreWithMongoDBDriver.UserInterface
 
         private void BindComboBoxForCustomers()
         {
-            var client = new MongoClient();
-            var db = client.GetDatabase("TestStore");
-            var customerCollection = db.GetCollection<Customer>("Customers");
+            var customerCollection = GetCollectionCustomer();
             List<CustomersListItemForDropDown> customersListItemForDropDown = customerCollection.AsQueryable()
                 .Select(x => new CustomersListItemForDropDown
                 { CustomerId = x.Id, FullName = x.FirstName + " " + x.LastName }).ToList();
@@ -75,9 +73,7 @@ namespace TestStoreWithMongoDBDriver.UserInterface
 
         private void BindComboBoxForGoods()
         {
-            var client = new MongoClient();
-            var db = client.GetDatabase("TestStore");
-            var goodsCollection = db.GetCollection<Goods>("Goods");
+            var goodsCollection = GetCollectionGoods();
             List<GoodsListItemForDropDown> goodsListItemForDropDowns = goodsCollection.AsQueryable()
                 .Select(x => new GoodsListItemForDropDown
                 { GoodsId = x.Id, Name = x.Name }).ToList();
@@ -93,6 +89,7 @@ namespace TestStoreWithMongoDBDriver.UserInterface
             cmbCustomers.SelectedIndex = 0;
             cmbGoods.SelectedIndex = 0;
             cmbCustomers.Focus();
+            goodsList.Clear();
             btnAddOrEditInvoice.Text = "Add";
         }
 
@@ -147,7 +144,7 @@ namespace TestStoreWithMongoDBDriver.UserInterface
                     var invoiceCollection = GetCollectionInvoice();
                     var invoiceUpdate = new Invoice
                     {
-                        
+
                     };
                 }
             }
